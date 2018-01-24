@@ -3,43 +3,47 @@
 class CreneauView
 {
 	public static function strCreneaux($creneaux = array()) : string {
-		/*
-		echo "<table class='table table-hover'>";
-		echo "<thead><tr>";
-		echo "<th>Date de Début</th>";
-		echo "<th>Durée</th>";
-		echo "<th>Est Exclusif</th>";
-		echo "<th>Date de Publication</th>";
-		echo "<th>Identifiant du Professeur</th>";
-		echo "<th>Est Libre</th>";
-		echo "<th>Note</th>";
-		echo "<th>Commentaire avant Créneau</th>";
-		echo "<th>Commentaire après Créneau</th>";
-		echo "</tr></thead>";
-		echo "<tbody>";
+		$format = "d/m/Y H:i:s";
+		$result = "";
+		$result .= "<table class='table table-hover'>";
+		$result .= "<thead><tr>";
+		$result .= "<th>Identifiant</th>";
+		$result .= "<th>Date de Début</th>";
+		$result .= "<th>Durée</th>";
+		$result .= "<th>Est Exclusif</th>";
+		$result .= "<th>Date de Publication</th>";
+		$result .= "<th>Identifiant du Professeur</th>";
+		$result .= "<th>Est Libre</th>";
+		$result .= "<th>Note</th>";
+		$result .= "<th>Commentaire avant Créneau</th>";
+		$result .= "<th>Commentaire après Créneau</th>";
+		$result .= "<th></th>";
+		$result .= "</tr></thead>";
+		$result .= "<tbody>";
+		$dt = null;
 		for ($i =0, $maxi = sizeof($creneaux); $i < $maxi; $i++) {
-			echo "<tr>";
-			echo "<td>" . $creneaux[$i]->getId() . "</td>";
-			echo "<td>" . $creneaux[$i]->getDateDebut() . "</td>";
-			echo "<td>" . $creneaux[$i]->getDuree() . "</td>";
-			echo "<td>" . $creneaux[$i]->getEstExclusif() . "</td>";
-			echo "<td>" . $creneaux[$i]->getDatePublication() . "</td>";
-			echo "<td>" . $creneaux[$i]->getIdProfesseur() . "</td>";
-			echo "<td>" . $creneaux[$i]->getEstLibre() . "</td>";
-			echo "<td>" . $creneaux[$i]->getNote() . "</td>";
-			echo "<td>" . $creneaux[$i]->getCommentaire1() . "</td>";
-			echo "<td>" . $creneaux[$i]->getCommentaire2() . "</td>";
-			echo "</tr>";
+			$epoch = $creneaux[$i]->getDateDebut();
+			$dt1 = new DateTime("@$epoch");
+			$epoch = @$creneaux[$i]->getDatePublication();
+			$dt2 = new DateTime("@$epoch");
+			$result .= "<tr>";
+			$result .= "<td>" . $creneaux[$i]->getId() . "</td>";
+			$result .= "<td>" . $dt1->format($format) . "</td>";
+			$result .= "<td>" . $creneaux[$i]->getDuree() . "</td>";
+			$result .= "<td>" . $creneaux[$i]->getEstExclusif() . "</td>";
+			$result .= "<td>" . $dt2->format($format) . "</td>";
+			$result .= "<td>" . $creneaux[$i]->getIdProfesseur() . "</td>";
+			$result .= "<td>" . $creneaux[$i]->getEstLibre() . "</td>";
+			$result .= "<td>" . $creneaux[$i]->getNote() . "</td>";
+			$result .= "<td>" . $creneaux[$i]->getCommentaire1() . "</td>";
+			$result .= "<td>" . $creneaux[$i]->getCommentaire2() . "</td>";
+			$result .= "<td><form action='update.php' method='post'><input type='hidden' id='supprimer' name='supprimer' value='" . $creneaux[$i]->getId() . "'/><input type='submit' class='btn btn-primary' value='Supprimer'/></form></td>";
+			$result .= "</tr>";
 		}
-		echo "</tbody>";
-		echo "</table>";*/
+		$result .= "</tbody>";
+		$result .= "</table>";
 		
-		require_once('TableView.php');
-		$array = array();
-		for ($i = 0, $maxi = sizeof($creneaux); $i < $maxi; $i++)
-			$array[$i] = array($creneaux[$i]->getId(), $creneaux[$i]->getDateDebut(), $creneaux[$i]->getDuree(), $creneaux[$i]->getEstExclusif(), $creneaux[$i]->getDatePublication(), $creneaux[$i]->getIdProfesseur(), $creneaux[$i]->getEstLibre(), $creneaux[$i]->getNote(), $creneaux[$i]->getCommentaire1(), $creneaux[$i]->getCommentaire2());
-		
-		return TableView::arrayToString($array, array("Identifiant", "Date de Début", "Durée", "Est Exclusif", "Date de Publication", "Identifiant du Professeur", "Est Libre", "Note", "Commentaire avant Créneau", "Commentaire après Créaneau"));
+		return $result;
 	}
 }
 
