@@ -37,7 +37,16 @@ class CreneauView
 			$result .= "<td>" . $creneaux[$i]->getNote() . "</td>";
 			$result .= "<td>" . $creneaux[$i]->getCommentaire1() . "</td>";
 			$result .= "<td>" . $creneaux[$i]->getCommentaire2() . "</td>";
-			$result .= "<td><form action='update.php' method='post'><input type='hidden' id='supprimer' name='supprimer' value='" . $creneaux[$i]->getId() . "'/><input type='submit' class='btn btn-primary' value='Supprimer'/></form></td>";
+			$result .= "<td>
+							<form action='update.php' method='post'>
+								<input type='hidden' id='modifier' name='modifier' value='" . $creneaux[$i]->getId() . "'/>
+								<input type='submit' class='btn btn-primary' value='Modifier'/>
+							</form>
+							<form action='update.php' method='post'>
+								<input type='hidden' id='supprimer' name='supprimer' value='" . $creneaux[$i]->getId() . "'/>
+								<input type='submit' class='btn btn-primary' value='Supprimer'/>
+							</form>
+						</td>";
 			$result .= "</tr>";
 		}
 		$result .= "</tbody>";

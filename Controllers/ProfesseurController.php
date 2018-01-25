@@ -55,6 +55,34 @@ class ProfesseurController
 		
 		return $id;
 	}
+	
+	public static function getProfesseurFromId($id = -1) : Professeur {
+		if ($id < 0)
+			return null;
+		
+		require_once("Models/Professeur.php");
+		require_once("setup.inc.php");
+		
+		$connexion = setup::initialize();
+		
+		$stmt = $connexion->prepare("SELECT * FROM professeurs WHERE id = ?;");
+		$stmt->bind_param("i", $id);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		
+		// On récupère la première ligne uniquement :
+		$row = $result->fetch_assoc();
+		
+		if ($row == null)
+			return null;
+		
+		$professeur = new Creneau($row["id"], $row["prenom"], $row["nom"]);
+		
+		$stmt->close();
+		setup::tearDown($connexion);
+		
+		return $professeur;
+	}
 }
 
 ?>

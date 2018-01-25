@@ -49,6 +49,36 @@ class CreneauController
 		return true;
 	}
 	
+	// TODO: Tester cette fonction
+	public static function modifierCreneau($creneau) : bool {
+		require_once("Models/Creneau.php");
+		if (!($creneau instanceof Creneau) || $creneau == null)
+			return false;
+		
+		require_once("setup.inc.php");
+		
+		$connexion = setup::initialize();
+		$stmt = $connexion->prepare("UPDATE creneaux SET dateDebut = ?,duree = ?,estExclusif = ?,datePublication = ?,idProfesseur = ?,estLibre = ?,note = ?,commentaire1 = ?, commentaire2 = ? WHERE id = ?;");
+		
+		$id = $creneau->getId();
+		$dateDebut = $creneau->getDateDebut();
+		$duree = $creneau->getDuree();
+		$estExclusif = $creneau->getEstExclusif();
+		$datePublication = $creneau->getDatePublication();
+		$idProfesseur = $creneau->getIdProfesseur();
+		$estLibre = $creneau->getEstLibre();
+		$note = $creneau->getNote();
+		$commentaire1 = $creneau->getCommentaire1();
+		$commentaire2 = $creneau->getCommentaire2();
+		
+		$stmt->bind_param("siisiiissi", $dateDebut->format("Y-m-d H:i:s"), $duree, $estExclusif, $datePublication->format("Y-m-d H:i:s"), $idProfesseur, $estLibre, $note, $commentaire1, $commentaire2, $id);
+		
+		$stmt->close();
+		setup::tearDown($connexion);
+		
+		return true;
+	}
+	
 	public static function supprimerCreneau($id = -1) : bool {
 		if ($id < 0)
 			return false;
@@ -66,6 +96,34 @@ class CreneauController
 		setup::tearDown($connexion);
 		
 		return true;
+	}
+	
+	public static function getCreneauFromId($id = -1) : Creneau {
+		if ($id < 0)
+			return null;
+		
+		require_once("Models/Creneau.php");
+		require_once("setup.inc.php");
+		
+		$connexion = setup::initialize();
+		
+		$stmt = $connexion->prepare("SELECT * FROM creneaux WHERE id = ?;");
+		$stmt->bind_param("i", $id);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		
+		// On récupère la première ligne uniquement :
+		$row = $result->fetch_assoc();
+		
+		if ($row == null)
+			return null;
+		
+		$creneau = new Creneau($row["id"], $row["dateDebut"], $row["duree"], $row["estExclusif"], $row["datePublication"], $row["idProfesseur"], $row["estLibre"], $row["note"], $row["commentaire1"], $row["commentaire2"]);
+		
+		$stmt->close();
+		setup::tearDown($connexion);
+		
+		return $creneau;
 	}
 }
 
