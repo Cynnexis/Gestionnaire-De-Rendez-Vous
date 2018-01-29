@@ -2,7 +2,7 @@
 <html lang="fr">
 	<head>
 		<meta charset="utf-8" />
-		<link rel="stylesheet" href="bootstrap/bootstrap/css/bootstrap-journal.min.css" />
+		<link rel="stylesheet" href="bootstrap/bootstrap/css/bootstrap-materia.min.css" />
 		<link rel="stylesheet" href="bootstrap/css/style.css" />
 		<title>TP6 - Gestion d'un Carnet de Rendez-Vous</title>
 	</head>
@@ -13,7 +13,7 @@
 	require_once('Models/Creneau.php');
 	?>
 	
-	<body onload="updateNote();">
+	<body>
 		<header class="page-header navbar fixed-top navbar-dark bg-primary">
 			<div class="container">
 				<h1 class="navbar-brand">Carnet de Rendez-vous</h1>
@@ -27,8 +27,15 @@
 			?>
 			
 			<section class="row col-12">
+				<h1>Professeurs</h1>
 				<?php
 				ProfesseurController::afficherProfesseurs();
+				?>
+			</section>
+			
+			<section class="row col-12">
+				<h1>Créneaux</h1>
+				<?php
 				CreneauController::afficherCreneaux();
 				?>
 				<form action="editCreneau.php" method="post">
@@ -40,6 +47,6 @@
 		
 		<script src="bootstrap/jquery/jquery-3.2.1.min.js"></script>
 		<script src="bootstrap/bootstrap/js/bootstrap.min.js"></script>
-		<script src="formScript.js"></script>
 	</body>
 </html>
+

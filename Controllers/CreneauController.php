@@ -28,20 +28,31 @@ class CreneauController
 		
 		$connexion = setup::initialize();
 		
+		echo "CreneauController::ajouterCreneau> avant traitement1 : " . $creneau->getDateDebut() . "<br/>";
+		echo "CreneauController::ajouterCreneau> avant traitement2 : " . $creneau->getDatePublication() . "<br/>";
+		
 		$stmt = mysqli_prepare($connexion, "INSERT INTO creneaux(dateDebut, duree, estExclusif, datePublication, idProfesseur, estLibre, note, commentaire1, commentaire2) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
 		$epoch = $creneau->getDateDebut();
-		$dateDebut = new DateTime("@$epoch");
+		$dateDebut = new DateTime("@$epoch", new DateTimeZone("Europe/Paris"));
+		echo $dateDebut->getTimestamp() . " =&gt; " . $dateDebut->format("Y-m-d %H:i:s") . "<br/>";
 		$duree = $creneau->getDuree();
 		$estExclusif = $creneau->getEstExclusif();
 		$epoch = $creneau->getDatePublication();
-		$datePublication = new DateTime("@$epoch");
+		$datePublication = new DateTime("@$epoch", new DateTimeZone("Europe/Paris"));
 		$idProfesseur = $creneau->getIdProfesseur();
 		$estLibre = $creneau->getEstLibre();
 		$note = $creneau->getNote();
 		$commentaire1 = $creneau->getCommentaire1();
 		$commentaire2 = $creneau->getCommentaire2();
-		$stmt->bind_param("siisiiiss", $dateDebut->format("Y-m-d H:i:s"), $duree, $estExclusif, $datePublication->format("Y-m-d H:i:s"), $idProfesseur, $estLibre, $note, $commentaire1, $commentaire2);
-		echo $stmt->execute();
+		
+		$dateDebutFormatted = $dateDebut->format("Y-m-d H:i:s");
+		$datePublicationFormatted = $datePublication->format("Y-m-d H:i:s");
+		
+		echo "CreneauController::ajouterCreneau> après traitement1 : $dateDebutFormatted<br/>";
+		echo "CreneauController::ajouterCreneau> après traitement2 : $datePublicationFormatted<br/>";
+		
+		$stmt->bind_param("siisiiiss", $dateDebutFormatted, $duree, $estExclusif, $datePublicationFormatted, $idProfesseur, $estLibre, $note, $commentaire1, $commentaire2);
+		$stmt->execute();
 		
 		$stmt->close();
 		setup::tearDown($connexion);
@@ -58,20 +69,25 @@ class CreneauController
 		require_once("setup.inc.php");
 		
 		$connexion = setup::initialize();
-		$stmt = $connexion->prepare("UPDATE creneaux SET dateDebut = ?,duree = ?,estExclusif = ?,datePublication = ?,idProfesseur = ?,estLibre = ?,note = ?,commentaire1 = ?, commentaire2 = ? WHERE id = ?;");
+		$stmt = $connexion->prepare("UPDATE creneaux SET dateDebut = ?, duree = ?, estExclusif = ?, datePublication = ?, idProfesseur = ?, estLibre = ?, note = ?, commentaire1 = ?, commentaire2 = ? WHERE id = ?;");
 		
 		$id = $creneau->getId();
-		$dateDebut = $creneau->getDateDebut();
+		$epoch = $creneau->getDateDebut();
+		$dateDebut = new DateTime("@$epoch", new DateTimeZone("Europe/Paris"));
 		$duree = $creneau->getDuree();
 		$estExclusif = $creneau->getEstExclusif();
-		$datePublication = $creneau->getDatePublication();
+		$epoch = $creneau->getDatePublication();
+		$datePublication = new DateTime("@$epoch", new DateTimeZone("Europe/Paris"));
 		$idProfesseur = $creneau->getIdProfesseur();
 		$estLibre = $creneau->getEstLibre();
 		$note = $creneau->getNote();
 		$commentaire1 = $creneau->getCommentaire1();
 		$commentaire2 = $creneau->getCommentaire2();
 		
-		$stmt->bind_param("siisiiissi", $dateDebut->format("Y-m-d H:i:s"), $duree, $estExclusif, $datePublication->format("Y-m-d H:i:s"), $idProfesseur, $estLibre, $note, $commentaire1, $commentaire2, $id);
+		$d1 = $dateDebut->format("Y-m-d H:i:s");
+		$d2 = $datePublication->format("Y-m-d H:i:s");
+		$stmt->bind_param("siisiiissi", $d1, $duree, $estExclusif, $d2, $idProfesseur, $estLibre, $note, $commentaire1, $commentaire2, $id);
+		$stmt->execute();
 		
 		$stmt->close();
 		setup::tearDown($connexion);
@@ -107,7 +123,7 @@ class CreneauController
 		
 		$connexion = setup::initialize();
 		
-		$stmt = $connexion->prepare("SELECT * FROM creneaux WHERE id = ?;");
+		$stmt = $connexion->prepare("SELECT id, UNIX_TIMESTAMP(dateDebut), duree, estExclusif, UNIX_TIMESTAMP(datePublication), idProfesseur, estLibre, note, commentaire1, commentaire2 FROM creneaux WHERE id = ?;");
 		$stmt->bind_param("i", $id);
 		$stmt->execute();
 		$result = $stmt->get_result();
@@ -118,7 +134,7 @@ class CreneauController
 		if ($row == null)
 			return null;
 		
-		$creneau = new Creneau($row["id"], $row["dateDebut"], $row["duree"], $row["estExclusif"], $row["datePublication"], $row["idProfesseur"], $row["estLibre"], $row["note"], $row["commentaire1"], $row["commentaire2"]);
+		$creneau = new Creneau($row["id"], $row["UNIX_TIMESTAMP(dateDebut)"], $row["duree"], (bool) $row["estExclusif"], $row["UNIX_TIMESTAMP(datePublication)"], $row["idProfesseur"], (bool) $row["estLibre"], $row["note"], $row["commentaire1"], $row["commentaire2"]);
 		
 		$stmt->close();
 		setup::tearDown($connexion);

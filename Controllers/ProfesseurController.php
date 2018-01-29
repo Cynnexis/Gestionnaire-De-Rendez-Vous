@@ -76,7 +76,7 @@ class ProfesseurController
 		if ($row == null)
 			return null;
 		
-		$professeur = new Creneau($row["id"], $row["prenom"], $row["nom"]);
+		$professeur = new Professeur($row["id"], $row["prenom"], $row["nom"]);
 		
 		$stmt->close();
 		setup::tearDown($connexion);

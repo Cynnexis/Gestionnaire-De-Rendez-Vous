@@ -28,7 +28,37 @@ class Creneau
 		$this->setCommentaire2($commentaire2);
 	}
 	
-	/* GETTERS 1 SETTERS */
+	public static function convertDurationToSeconds(string $duration) : int {
+		$ar = explode(':', $duration);
+		
+		if (sizeof($ar) < 2)
+			return 0;
+		
+		$hour = (int) $ar[0];
+		$minute = (int) $ar[1];
+		
+		return $hour * 60 * 60 + $minute * 60;
+	}
+	
+	public static function convertSecondsToDuration(int $seconds) : string {
+		$hours = (int) ($seconds / 3600);
+		$minutes = (int) (($seconds % 3600) / 60);
+		$s = $seconds % 60;
+		
+		// Round $minutes if $s is greater than 30 seconds.
+		if ($s > 30)
+			$minutes++;
+		
+		if (0 <= $hours && $hours <= 9)
+			$hours = "0" . $hours;
+		
+		if (0 <= $minutes && $minutes <= 9)
+			$minutes = "0" . $minutes;
+		
+		return $hours . ":" . $minutes;
+	}
+	
+	/* GETTERS & SETTERS */
 	
 	/**
 	 * @return int
