@@ -38,21 +38,21 @@ class CreneauView
 			//$result .= "<td>" . $creneaux[$i]->getId() . "</td>";
 			$result .= "<td>" . $dt1->format($format) . "</td>";
 			$result .= "<td>" . Creneau::convertSecondsToDuration($creneaux[$i]->getDuree()) . "</td>";
-			$result .= "<td>" . ($creneaux[$i]->getEstExclusif() == true ? "Oui" : "Non") . "</td>";
+			$result .= "<td><span class='badge badge-pill badge-" . ($creneaux[$i]->getEstExclusif() == true ? "success'>Oui" : "danger'>Non") . "</span></td>";
 			$result .= "<td>" . $dt2->format($format) . "</td>";
 			$result .= "<td>" . $pPrenomNom . "</td>";
-			$result .= "<td>" . ($creneaux[$i]->getEstLibre() == true ? "Oui" : "Non") . "</td>";
+			$result .= "<td><span class='badge badge-pill badge-" . ($creneaux[$i]->getEstLibre() == true ? "success'>Oui" : "danger'>Non") . "</span></td>";
 			$result .= "<td>" . $creneaux[$i]->getNote() . "/20</td>";
 			$result .= "<td>" . $creneaux[$i]->getCommentaire1() . "</td>";
 			$result .= "<td>" . $creneaux[$i]->getCommentaire2() . "</td>";
 			$result .= "<td><form action='editCreneau.php' method='post'>
 								<input type='hidden' id='modifier' name='modifier' value='" . $creneaux[$i]->getId() . "'/>
-								<input type='submit' class='btn btn-primary' value='Modifier'/>
+								<input type='submit' class='btn btn-outline-warning' value='Modifier'/>
 							</form>
 						</td>";
 			$result .= "<td><form action='update.php' method='post'>
 								<input type='hidden' id='supprimer' name='supprimer' value='" . $creneaux[$i]->getId() . "'/>
-								<input type='submit' class='btn btn-primary' value='Supprimer'/>
+								<input type='submit' class='btn btn-outline-danger' value='Supprimer'/>
 							</form>
 						</td>";
 			$result .= "</tr>";

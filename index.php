@@ -14,33 +14,49 @@
 	?>
 	
 	<body>
+		<!-- Header containing the banner -->
 		<header class="page-header navbar fixed-top navbar-dark bg-primary">
 			<div class="container">
 				<h1 class="navbar-brand">Carnet de Rendez-vous</h1>
 			</div>
 		</header>
-		
 		<div class="container">
+		
+			<!-- Navbar (containing in another file) -->
 			<?php
 			$_GET["active"] = 1;
 			include("Templates/navbar.php");
 			?>
 			
-			<section class="row col-12">
-				<h1>Professeurs</h1>
-				<?php
-				ProfesseurController::afficherProfesseurs();
-				?>
+			<!-- Teachers Table -->
+			<section>
+				<div class="row">
+					<h1>Professeurs</h1>
+				</div>
+				<div class="row">
+					<div class="col-7">
+						<?php
+						ProfesseurController::afficherProfesseurs();
+						?>
+					</div>
+					<div class="col-5">
+					</div>
+				</div>
 			</section>
 			
+			<!-- Time Slots Table -->
 			<section class="row col-12">
 				<h1>Créneaux</h1>
 				<?php
 				CreneauController::afficherCreneaux();
 				?>
-				<form action="editCreneau.php" method="post">
+			</section>
+			
+			<!-- Button to add Time Slots -->
+			<section class="row col-12">
+				<form action="editCreneau.php" method="post" class="col-12">
 					<input type="hidden" id="ajouter" name="ajouter" value="true"/>
-					<input type="submit" value="Ajouter un Créneau" class="btn btn-primary"/>
+					<input type="submit" value="Ajouter un Créneau" class="btn btn-primary btn-lg col-12"/>
 				</form>
 			</section>
 		</div>
