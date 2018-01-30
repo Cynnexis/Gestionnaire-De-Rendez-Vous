@@ -1,5 +1,6 @@
 <?php
 
+// Modèle Créneau
 class Creneau
 {
 	private $id = -1; // Primary key
@@ -28,6 +29,10 @@ class Creneau
 		$this->setCommentaire2($commentaire2);
 	}
 	
+	/** Convert a duration like "20:15" (hh:mm) to its equivalent in seconds
+	 * @param string $duration
+	 * @return int
+	 */
 	public static function convertDurationToSeconds(string $duration) : int {
 		$ar = explode(':', $duration);
 		
@@ -40,6 +45,11 @@ class Creneau
 		return $hour * 60 * 60 + $minute * 60;
 	}
 	
+	/**
+	 * Convert seconds to "hh:mm" format
+	 * @param int $seconds
+	 * @return string
+	 */
 	public static function convertSecondsToDuration(int $seconds) : string {
 		$hours = (int) ($seconds / 3600);
 		$minutes = (int) (($seconds % 3600) / 60);

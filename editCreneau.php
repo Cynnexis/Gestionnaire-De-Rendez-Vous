@@ -14,14 +14,21 @@
 	require_once('Models/Creneau.php');
 	require_once('Models/Professeur.php');
 	
+	// editCreneau a deux mode possible : Soit il "ajoute" un créneau, soit il en modifie un.
+	
+	// Récupération du mode.
 	// -1   : AJOUTER
 	// >= 0 : MODIFIER
 	$mode = -1;
+	// Le créneau à modifier (NULL si on veut ajouter un créneau)
 	$creneau = null;
+	// On récupère le prénom + nom du professeur associé
+	$associatedProfesseur = "";
+	
 	if (isset($_POST["modifier"]) && $_POST["modifier"] >= 0) {
+		// $mode est égale à l'id du créneau à modifier
 		$mode = $_POST["modifier"];
 		$creneau = CreneauController::getCreneauFromId($mode);
-		$associatedProfesseur = "";
 		
 		// Si aucun creneau n'a été trouvé avec un tel id, on revient en mode AJOUTER
 		if ($creneau == null)
@@ -32,12 +39,14 @@
 		}
 	}
 	
+	// On récupère la liste des professeurs dans la base de données pour les lister dans un <select>
 	$listeNonProcesse = ProfesseurController::listeProfesseurs();
 	$listeProfesseurs = array();
 	for ($i = 0; $i < sizeof($listeNonProcesse) ; $i++)
 		$listeProfesseurs[$i] = $listeNonProcesse[$i]->getPrenom() . " " . $listeNonProcesse[$i]->getNom();
 	?>
 	
+	<!-- updateNote() est une fonction javascript mettant à jour la note sur 20 en fonction du "range" (voir fomulaire) -->
 	<body onload="updateNote();">
 		<header class="page-header navbar fixed-top navbar-dark bg-primary">
 			<div class="container">
@@ -47,6 +56,7 @@
 		
 		<div class="container">
 			<?php
+			// Affichage du navbar
 			$_GET["active"] = 2;
 			include("Templates/navbar.php");
 			?>

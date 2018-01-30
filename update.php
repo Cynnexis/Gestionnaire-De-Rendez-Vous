@@ -6,6 +6,10 @@ require_once('Models/Creneau.php');
 
 date_default_timezone_set("Europe/Paris");
 
+/* update.php est un fichier intérmédiaire permettant de mettre à jour la base de donnée en fonction des variables
+ * $_POST.
+ */
+
 // Test si la page à recu des informations POST
 
 // Informations pour ajouter/modifier un créneau:
@@ -53,8 +57,10 @@ if (isset($_POST["dateDebut"]) && isset($_POST["duree"]) && isset($_POST["profes
 if (isset($_POST["supprimer"]) && $_POST["supprimer"] > 0)
 	CreneauController::supprimerCreneau($_POST["supprimer"]);
 
+// Redirection vers index.php
 header("location: index.php");
 
+// Si un problème de redirection est detecté, on affiche un bouton permettant de redirigé l'utilisateur
 echo "<a href='index.php'><input type='button' value=\"Revenir à la page d'accueil\"></a>";
 
 ?>

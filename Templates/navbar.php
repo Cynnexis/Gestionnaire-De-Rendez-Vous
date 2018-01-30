@@ -10,6 +10,9 @@
 		<span class="navbar-toggler-icon"></span>
 	</button>
 	
+	<!-- On utilise la variable $_GET["active"] comme "paramètre". S'il est égale à 1 (ou si la variable n'existe pas),
+		 la page d'accueil est considéré par défaut, sinon, c'est la page n°i qui est considéré comme active. -->
+	
 	<div class="collapse navbar-collapse" id="navbarColor01" style="margin: 0;">
 		<ul class="navbar-nav mr-auto">
 			<li class="nav-item<?php if ($_GET["active"] == 1 || !isset($_GET["active"])) echo " active"; ?>">

@@ -2,6 +2,9 @@
 
 class CreneauController
 {
+	/**
+	 * Display all creneaux in the database in a table
+	 */
 	public static function afficherCreneaux() : void {
 		require_once("setup.inc.php");
 		require_once("Models/Creneau.php");
@@ -19,6 +22,11 @@ class CreneauController
 		echo $table;
 	}
 	
+	/**
+	 * Add a creneau to the database
+	 * @param $creneau
+	 * @return bool
+	 */
 	public static function ajouterCreneau($creneau) : bool {
 		require_once("Models/Creneau.php");
 		if (!($creneau instanceof Creneau) || $creneau == null)
@@ -60,7 +68,11 @@ class CreneauController
 		return true;
 	}
 	
-	// TODO: Tester cette fonction
+	/**
+	 * Change a creneau in the database. The modified creneau is the one containing the same primary key "$id" in $creneau
+	 * @param $creneau
+	 * @return bool
+	 */
 	public static function modifierCreneau($creneau) : bool {
 		require_once("Models/Creneau.php");
 		if (!($creneau instanceof Creneau) || $creneau == null)
@@ -95,6 +107,11 @@ class CreneauController
 		return true;
 	}
 	
+	/**
+	 * Delete a creneau from the database
+	 * @param int $id
+	 * @return bool
+	 */
 	public static function supprimerCreneau($id = -1) : bool {
 		if ($id < 0)
 			return false;
@@ -114,6 +131,11 @@ class CreneauController
 		return true;
 	}
 	
+	/**
+	 * Fetch a creneau from the database
+	 * @param int $id The id of the desired creneau
+	 * @return Creneau The creneau. If no creneau with a such id has been found, the result will be null.
+	 */
 	public static function getCreneauFromId($id = -1) : Creneau {
 		if ($id < 0)
 			return null;

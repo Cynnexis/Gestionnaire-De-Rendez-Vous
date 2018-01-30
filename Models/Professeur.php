@@ -1,11 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Valentin
- * Date: 18/01/2018
- * Time: 10:38
- */
 
+// Model de Professeur
 class Professeur
 {
 	private $id = 0; // Primary key

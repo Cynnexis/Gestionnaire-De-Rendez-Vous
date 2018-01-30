@@ -24,6 +24,7 @@
 		
 			<!-- Navbar (containing in another file) -->
 			<?php
+			// Active est un "paramètre" que nous envoyons par l'intermédiaire de $_GET à la page navbar.
 			$_GET["active"] = 1;
 			include("Templates/navbar.php");
 			?>

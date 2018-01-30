@@ -2,6 +2,9 @@
 
 class ProfesseurController
 {
+	/**
+	 * Display all professeurs in the database in a table
+	 */
 	public static function afficherProfesseurs() : void {
 		require_once("Models/Professeur.php");
 		require_once("Views/ProfesseurView.php");
@@ -12,6 +15,10 @@ class ProfesseurController
 		echo $table;
 	}
 	
+	/**
+	 * Fetch all professeur from the database
+	 * @return array
+	 */
 	public static function listeProfesseurs() : array {
 		require_once("setup.inc.php");
 		require_once("Models/Professeur.php");
@@ -28,6 +35,12 @@ class ProfesseurController
 		return $professeurs;
 	}
 	
+	/**
+	 * Fetch the id of the Professeur associated to the properties $prenom and $nom.
+	 * @param string $prenom
+	 * @param string $nom
+	 * @return int
+	 */
 	public static function getId($prenom="", $nom="") : int {
 		require_once("setup.inc.php");
 		require_once("Models/Professeur.php");
@@ -56,6 +69,11 @@ class ProfesseurController
 		return $id;
 	}
 	
+	/**
+	 * Fetch a professeur from the database
+	 * @param int $id The id of the desired professeur
+	 * @return Professeur The professeur. If no professeur with a such id has been found, the result will be null.
+	 */
 	public static function getProfesseurFromId($id = -1) : Professeur {
 		if ($id < 0)
 			return null;

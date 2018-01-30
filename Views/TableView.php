@@ -2,6 +2,12 @@
 
 class TableView
 {
+	/**
+	 * Convert an array of string to an HTML table, using bootstrap
+	 * @param array $data
+	 * @param array $headers
+	 * @return string
+	 */
 	public static function arrayToString($data = [], $headers = []) : string {
 		$result = "";
 		

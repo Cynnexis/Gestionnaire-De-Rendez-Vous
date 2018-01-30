@@ -1,7 +1,13 @@
 <?php
 
+// Vue Créneau
 class CreneauView
 {
+	/**
+	 * Convert an array of Creneaux into a string containing HTML code to display a table of the given array
+	 * @param array $creneaux The array of Creneaux to convert
+	 * @return string The string containing the table
+	 */
 	public static function strCreneaux($creneaux = array()) : string {
 		require_once("Models/Creneau.php");
 		require_once("Controllers/ProfesseurController.php");
@@ -10,7 +16,6 @@ class CreneauView
 		$result = "";
 		$result .= "<table class='table table-hover'>";
 		$result .= "<thead><tr>";
-		//$result .= "<th>Identifiant</th>";
 		$result .= "<th>Date de Début</th>";
 		$result .= "<th>Durée (hh:mm)</th>";
 		$result .= "<th>Est Exclusif</th>";
